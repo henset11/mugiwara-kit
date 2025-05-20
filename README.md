@@ -16,3 +16,15 @@ PHP Library :
 
 1. <a href="https://scramble.dedoc.co/">Scramble</a>
 2. <a href="https://blueprint.laravelshift.com/">Laravel Shift Blueprint</a>
+
+Installation :
+
+1. run composer create-project henset11/mugiwara-kit
+2. run composer install
+3. run npm install && npm build
+4. cp .env.example .env
+5. Configure database in .env
+6. Configure google sign in client id and secret (optional)
+7. Configure SMTP for email sending (optional)
+8. run composer run dev
+9. When developing use composer run dev for auto reload

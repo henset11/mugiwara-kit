@@ -1,15 +1,19 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "henset11/mugiwara-kit",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Filament Starter Kit with pre-configured packages and settings",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "filament",
+        "starter-kit",
+        "admin-panel"
     ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "awcodes/filament-quick-create": "^3.6",
         "bezhansalleh/filament-shield": "^3.3",
         "dedoc/scramble": "^0.12.19",
         "dutchcodingcompany/filament-socialite": "^2.4",
@@ -25,6 +29,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "owenvoke/blade-fontawesome": "^2.9",
+        "ralphjsmit/laravel-filament-components": "^2.2",
         "rupadana/filament-api-service": "^3.4",
         "socialiteproviders/google": "^4.1",
         "stechstudio/filament-impersonate": "^3.16",

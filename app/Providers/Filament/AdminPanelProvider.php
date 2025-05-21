@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use TomatoPHP\FilamentUsers\FilamentUsersPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use DutchCodingCompany\FilamentSocialite\Provider;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -87,6 +88,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentUsersPlugin::make(),
                 ThemesPlugin::make(),
                 ApiServicePlugin::make(),
+                QuickCreatePlugin::make(),
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true,

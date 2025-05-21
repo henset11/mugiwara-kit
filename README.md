@@ -21,11 +21,9 @@ PHP Library :
 Installation :
 
 1. run composer create-project henset11/mugiwara-kit
-2. run composer install
-3. run npm install && npm build
-4. cp .env.example .env
-5. Configure database in .env
-6. Configure google sign in client id and secret (optional)
-7. Configure SMTP for email sending (optional)
-8. run composer run dev
-9. When developing use composer run dev for auto reload
+2. run npm install && npm run build
+3. Configure database in .env
+4. Configure google sign in client id and secret (optional)
+5. Configure SMTP for email sending (optional)
+6. run composer run setup
+7. When developing use composer run dev for auto reload

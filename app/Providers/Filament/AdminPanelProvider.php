@@ -32,11 +32,17 @@ use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
-    private $settings = null;
+    private ?GeneralSettings $settings = null;
 
     public function __construct()
     {
-        $this->settings = app(GeneralSettings::class);
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                $this->settings = app(GeneralSettings::class);
+            }
+        } catch (\Exception $e) {
+            $this->settings = null;
+        }
     }
 
     public function panel(Panel $panel): Panel
@@ -45,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName($this->settings->site_name)
+            ->when($this->settings->site_name ?? null, fn($panel) => $panel->brandName($this->settings->site_name))
             ->when($this->settings->site_logo ?? null, fn($panel) => $panel->brandLogo(asset(Storage::url($this->settings->site_logo))))
             ->when($this->settings->dark_site_logo ?? null, fn($panel) => $panel->darkModeBrandLogo(asset(Storage::url($this->settings->dark_site_logo))))
             ->brandLogoHeight('3rem')

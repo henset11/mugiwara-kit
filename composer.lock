@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d25025b44350842c790ba957babb8339",
+    "content-hash": "7d4ac5b5daa8cb646d1296816f604db8",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -6599,79 +6599,6 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
-        },
-        {
-            "name": "ralphjsmit/laravel-filament-components",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ralphjsmit/laravel-filament-components.git",
-                "reference": "959d28ea0dc42ffaf4779c3409e59138d62f8d8e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ralphjsmit/laravel-filament-components/zipball/959d28ea0dc42ffaf4779c3409e59138d62f8d8e",
-                "reference": "959d28ea0dc42ffaf4779c3409e59138d62f8d8e",
-                "shasum": ""
-            },
-            "require": {
-                "filament/forms": "^3.0",
-                "illuminate/contracts": "^9.52|^10.0|^11.0|^12.0",
-                "php": "^8.0",
-                "spatie/laravel-package-tools": "^1.9.2"
-            },
-            "require-dev": {
-                "nesbot/carbon": "^2.66|^3.0",
-                "nunomaduro/collision": "^7.0|^8.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "pestphp/pest": "^1.21|^2.0|^3.0",
-                "pestphp/pest-plugin-laravel": "^1.1|^2.0|^3.0",
-                "phpunit/phpunit": "^9.5|^10.0|^11.5",
-                "spatie/laravel-ray": "^1.26",
-                "spatie/pest-plugin-test-time": "^1.0|^2.0|^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "FilamentComponents": "RalphJSmit\\Filament\\Components\\Facades\\FilamentComponents"
-                    },
-                    "providers": [
-                        "RalphJSmit\\Filament\\Components\\FilamentComponentsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/Support/helpers.php"
-                ],
-                "psr-4": {
-                    "RalphJSmit\\Filament\\Components\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ralph J. Smit",
-                    "email": "rjs@ralphjsmit.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A collection of reusable components for Filament.",
-            "homepage": "https://github.com/ralphjsmit/laravel-filament-components",
-            "keywords": [
-                "laravel",
-                "laravel-filament-components",
-                "ralphjsmit"
-            ],
-            "support": {
-                "issues": "https://github.com/ralphjsmit/laravel-filament-components/issues",
-                "source": "https://github.com/ralphjsmit/laravel-filament-components/tree/2.2.0"
-            },
-            "time": "2025-02-27T17:52:54+00:00"
         },
         {
             "name": "ramsey/collection",

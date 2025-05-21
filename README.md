@@ -11,8 +11,7 @@ Filament Plugin:
 9. <a href="https://filamentphp.com/plugins/3x1io-tomato-users">User Manager</a>
 10. <a href="https://filamentphp.com/plugins/hasnayeen-themes">Themes</a>
 11. <a href="https://filamentphp.com/plugins/hugomyb-media-action">Media Action</a>
-12. <a href="https://filamentphp.com/plugins/ralphjsmit-components">Components</a>
-13. <a href="https://filamentphp.com/plugins/awcodes-quick-create">Quick Create</a>
+12. <a href="https://filamentphp.com/plugins/awcodes-quick-create">Quick Create</a>
 
 PHP Library :
 

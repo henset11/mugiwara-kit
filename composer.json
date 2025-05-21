@@ -29,7 +29,6 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "owenvoke/blade-fontawesome": "^2.9",
-        "ralphjsmit/laravel-filament-components": "^2.2",
         "rupadana/filament-api-service": "^3.4",
         "socialiteproviders/google": "^4.1",
         "stechstudio/filament-impersonate": "^3.16",

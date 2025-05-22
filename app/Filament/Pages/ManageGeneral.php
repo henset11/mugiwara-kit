@@ -35,11 +35,18 @@ class ManageGeneral extends SettingsPage
                     ->schema([
                         TextInput::make('site_name')
                             ->label('Site Name')
-                            ->required()
-                            ->columnSpan([
-                                'sm' => 1,
-                                'lg' => 2
-                            ]),
+                            ->required(),
+                        FileUpload::make('favicon')
+                            ->label('Favicon')
+                            ->image()
+                            ->maxSize(100)
+                            ->disk('public')
+                            ->directory('system')
+                            ->getUploadedFileNameForStorageUsing(
+                                function ($file): string {
+                                    return 'favicon.' . $file->getClientOriginalExtension();
+                                }
+                            ),
                         FileUpload::make('site_logo')
                             ->label('Site Logo')
                             ->image()
@@ -50,7 +57,8 @@ class ManageGeneral extends SettingsPage
                                 function ($file): string {
                                     return 'site-logo.' . $file->getClientOriginalExtension();
                                 }
-                            ),
+                            )
+                            ->optimize('webp'),
                         FileUpload::make('dark_site_logo')
                             ->label('Dark Site Logo')
                             ->image()
@@ -61,7 +69,8 @@ class ManageGeneral extends SettingsPage
                                 function ($file): string {
                                     return 'dark-site-logo.' . $file->getClientOriginalExtension();
                                 }
-                            ),
+                            )
+                            ->optimize('webp'),
                         Toggle::make('site_active')
                             ->label('Site Active'),
                         Toggle::make('registration_enabled')

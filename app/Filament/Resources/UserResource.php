@@ -4,32 +4,43 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use App\Models\User;
-use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Toggle;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Validation\Rules\Password;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\UserResource\Pages;
-use TomatoPHP\FilamentUsers\Resources\UserResource\Table\UserActions;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
-class UserResource extends Resource
+class UserResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = User::class;
 
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            ...config('filament-shield.permission_prefixes.resource'),
+            'impersonate'
+        ];
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -97,7 +108,13 @@ class UserResource extends Resource
                 ->columnSpanFull()
                 ->multiple()
                 ->preload()
-                ->relationship('roles', 'name')
+                ->relationship(
+                    'roles',
+                    'name',
+                    fn($query) => auth()->user()->hasRole('super_admin')
+                        ? $query
+                        : $query->where('name', '!=', 'super_admin')
+                )
                 ->label(trans('filament-users::user.resource.roles'));
         }
 
@@ -143,7 +160,9 @@ class UserResource extends Resource
     {
         $columns = [
             ImageColumn::make('avatar_url')
-                ->circular(),
+                ->label('')
+                ->circular()
+                ->state(fn($record) => $record->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($record->name)),
             TextColumn::make('name')
                 ->sortable()
                 ->searchable()
@@ -155,7 +174,6 @@ class UserResource extends Resource
             IconColumn::make('email_verified_at')
                 ->state(fn($record) => (bool) $record->email_verified_at)
                 ->boolean()
-                ->sortable()
                 ->label(trans('filament-users::user.resource.email_verified_at'))
                 ->toggleable(),
         ];
@@ -171,9 +189,32 @@ class UserResource extends Resource
 
         $table
             ->columns($columns)
+            ->modifyQueryUsing(fn($query) =>
+            auth()->user()->hasRole('super_admin')
+                ? $query
+                : $query->whereDoesntHave('roles', fn($q) => $q->where('name', 'super_admin')))
             ->bulkActions(config('filament-users.resource.table.bulkActions')::make())
+            ->checkIfRecordIsSelectableUsing(
+                fn(User $record): bool => !$record->hasRole('super_admin')
+            )
             ->filters(config('filament-users.resource.table.filters')::make())
-            ->actions(UserActions::make());
+            ->actions([
+                ViewAction::make()
+                    ->iconButton()
+                    ->hidden(fn(User $record) =>
+                    $record->hasRole('super_admin') && !auth()->user()->hasRole('super_admin')),
+                EditAction::make()->iconButton()
+                    ->hidden(fn(User $record) =>
+                    $record->hasRole('super_admin') && !auth()->user()->hasRole('super_admin')),
+                DeleteAction::make()
+                    ->iconButton()
+                    ->hidden(fn(User $record) =>
+                    auth()->id() === $record->id ||
+                        ($record->hasRole('super_admin') && !auth()->user()->hasRole('super_admin'))),
+                Impersonate::make()
+                    ->visible(auth()->user()->can('impersonate_user'))
+                    ->redirectTo(fn() => filament()->getCurrentPanel()->getUrl()),
+            ]);
 
         return $table;
     }

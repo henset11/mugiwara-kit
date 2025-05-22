@@ -12,6 +12,17 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+
+    protected function beforeFill(): void
+    {
+        $record = $this->getRecord();
+        abort_if(
+            $record->hasRole('super_admin') && !auth()->user()->hasRole('super_admin'),
+            403,
+            'You do not have permission to edit super admin users.'
+        );
+    }
+
     public function mutateFormDataBeforeFill(array $data): array
     {
         if ($data['email_verified_at']) {
@@ -51,8 +62,8 @@ class EditUser extends EditRecord
 
     protected function getActions(): array
     {
-        !config('filament-users.impersonate') ?: $ret[] = Impersonate::make()->record($this->getRecord());
-        $ret[] = DeleteAction::make();
+        !config('filament-users.impersonate') ?: $ret[] = Impersonate::make()->record($this->getRecord())->visible(auth()->user()->can('impersonate_user'))->redirectTo(fn() => filament()->getCurrentPanel()->getUrl());
+        $ret[] = DeleteAction::make()->hidden(fn(User $record) => auth()->id() === $record->id);
 
         return $ret;
     }

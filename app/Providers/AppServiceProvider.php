@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
+        User::observe(UserObserver::class);
     }
 }

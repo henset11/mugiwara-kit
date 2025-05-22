@@ -52,9 +52,31 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->when($this->settings->site_name ?? null, fn($panel) => $panel->brandName($this->settings->site_name))
-            ->when($this->settings->site_logo ?? null, fn($panel) => $panel->brandLogo(asset(Storage::url($this->settings->site_logo))))
-            ->when($this->settings->dark_site_logo ?? null, fn($panel) => $panel->darkModeBrandLogo(asset(Storage::url($this->settings->dark_site_logo))))
-            ->brandLogoHeight('3rem')
+            ->when(
+                $this->settings->favicon ?? null,
+                fn($panel) => $panel->favicon(
+                    Storage::disk('public')->exists($this->settings->favicon)
+                        ? asset(Storage::url($this->settings->favicon))
+                        : asset($this->settings->favicon)
+                )
+            )
+            ->when(
+                $this->settings->site_logo ?? null,
+                fn($panel) => $panel->brandLogo(
+                    Storage::disk('public')->exists($this->settings->site_logo)
+                        ? asset(Storage::url($this->settings->site_logo))
+                        : asset($this->settings->site_logo)
+                )
+            )
+            ->when(
+                $this->settings->dark_site_logo ?? null,
+                fn($panel) => $panel->darkModeBrandLogo(
+                    Storage::disk('public')->exists($this->settings->dark_site_logo)
+                        ? asset(Storage::url($this->settings->dark_site_logo))
+                        : asset($this->settings->dark_site_logo)
+                )
+            )
+            ->brandLogoHeight('2.5rem')
             ->when($this->settings->login_enabled ?? true, fn($panel) => $panel->login())
             ->when($this->settings->registration_enabled ?? false, fn($panel) => $panel->registration())
             ->when($this->settings->password_reset_enabled ?? true, fn($panel) => $panel->passwordReset())

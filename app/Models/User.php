@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Filament\Panel;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
@@ -12,8 +15,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasAvatar
 {
@@ -64,5 +65,14 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+    }
+
+    public function canBeImpersonated()
+    {
+        if (auth()->user()->hasRole('super_admin')) {
+            return !$this->hasRole(['super_admin']);
+        }
+
+        return !$this->hasRole(['super_admin', 'admin']);
     }
 }
